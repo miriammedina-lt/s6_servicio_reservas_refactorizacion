@@ -4,42 +4,32 @@ import edu.uees.refactor.domain.Reserva;
 
 public class ServicioReservas {
 
-    public double procesar(
-            Reserva r,
-            int horasAnticipacion) {
-
-        if (r == null) {
-            return 0;
-        }
-
-        if (r.getCorreo() == null
-                || !r.getCorreo().contains("@")) {
-            return 0;
-        }
-
-        if (r.getInicio() == null
-                || r.getFin() == null
-                || !r.getFin().isAfter(r.getInicio())) {
-            return 0;
-        }
-
-        if (horasAnticipacion < 2) {
+    public double procesar(Reserva r, int horasAnticipacion) {
+        if (esInvalida(r, horasAnticipacion)) {
             return 0;
         }
 
         double total = calcularTotal(r);
 
-        System.out.println(
-                "Guardando reserva " + r.getId()
-        );
-
-        System.out.println(
-                "Correo enviado a " + r.getCorreo()
-        );
+        System.out.println("Guardando reserva " + r.getId());
+        System.out.println("Correo enviado a " + r.getCorreo());
 
         r.confirmar();
 
         return total;
+    }
+
+    private boolean esInvalida(Reserva r, int horasAnticipacion) {
+        if (r == null) {
+            return true;
+        }
+        if (r.getCorreo() == null || !r.getCorreo().contains("@")) {
+            return true;
+        }
+        if (r.getInicio() == null || r.getFin() == null || !r.getFin().isAfter(r.getInicio())) {
+            return true;
+        }
+        return horasAnticipacion < 2;
     }
 
     private double calcularTotal(Reserva r) {
