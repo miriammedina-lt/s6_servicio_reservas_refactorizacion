@@ -10,10 +10,7 @@ public class ServicioReservas {
         }
 
         double total = calcularTotal(r);
-
-        System.out.println("Guardando reserva " + r.getId());
-        System.out.println("Correo enviado a " + r.getCorreo());
-
+        notificarYPersistir(r);
         r.confirmar();
 
         return total;
@@ -38,5 +35,10 @@ public class ServicioReservas {
             total = total * 0.85;
         }
         return total;
+    }
+
+    private void notificarYPersistir(Reserva r) {
+        System.out.println("Guardando reserva " + r.getId());
+        System.out.println("Correo enviado a " + r.getCorreo());
     }
 }
